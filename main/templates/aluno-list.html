@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Lista de alunos</h4>
+            <a type="button" class="btn btn-dark float-end" href="{%url 'aluno-create' %}">+ Novo aluno</a>
+        </div>
+        
+        <div class="card-body" style="overflow-x:auto;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Matricula</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Cidade</th>
+                        <th scope="col">Telefone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aluno in alunos %}
+                    <tr>
+                        <td>{{ aluno.nome }}</td>
+                        <td>{{ aluno.matricula }}</td>
+                        <td>{{ aluno.email }}</td>
+                        <td>{{ aluno.cidade }}</td>
+                        <td>{{ aluno.telefone }}</td>
+                        <td><a type="button" class="btn btn-warning" href="/aluno-update/{{ aluno.id }}">Editar</a>
+                            <a type="button" class="btn btn-danger" href="/aluno-delete/{{ aluno.id }}">Remover</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

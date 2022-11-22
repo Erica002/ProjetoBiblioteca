@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Lista de Livros</h4>
+            <a type="button" class="btn btn-dark float-end" href="{%url 'livro-create' %}">+ Novo livro</a>
+        </div>
+        
+        <div class="card-body" style="overflow-x:auto;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Genero</th>
+                        <th scope="col">Páginas</th>
+                        <th scope="col">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in livros %}
+                    <tr>
+                        <td>{{ livro.titulo }}</td>
+                        <td>{{ livro.autor }}</td>
+                        <td>{{ livro.genero }}</td>
+                        <td>{{ livro.paginas }}</td>
+                        <td><a type="button" class="btn btn-warning" href="/livro-update/{{ livro.id }}">Editar</a>
+                            <a type="button" class="btn btn-danger" href="/livro-delete/{{ livro.id }}">Remover</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

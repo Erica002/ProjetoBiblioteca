@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid px-4">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Lista de empréstimos</h4>
+            <a type="button" class="btn btn-dark float-end" href="{%url 'emprestimo-create' %}">+ Novo empréstimo</a>
+        </div>
+        
+        <div class="card-body" style="overflow-x:auto;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Período</th>
+                        <th scope="col">Aluno</th>
+                        <th scope="col">Data Empréstimo</th>
+                        <th scope="col">Data de Devolução</th>
+                        <th scope="col">Status</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emprestimo in emprestimos %}
+                    <tr>
+                        <td>{{ emprestimo.periodo }}</td>
+                        <td>{{ emprestimo.aluno }}</td>
+                        <td>{{ emprestimo.data_emprestimo }}</td>
+                        <td>{{ emprestimo.data_entrega }}</td>
+                        <td>{{ emprestimo.status_emprestimo }}</td>
+                        <td>
+                            <a type="button" class="btn btn-danger" href="/emprestimo-delete/{{ emprestimo.id }}">Remover</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
