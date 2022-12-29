@@ -1,57 +1,47 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.utils.timezone import now
 
-RENDA_CHOICES = [
-    ("Salário", "Salário"),
-    ("Freelancer", "Freelancer"),
-    ("Extra", "Extra"),
-]
-
+# Create your models here.
 CLASSES_CHOICES = [
-    ("Cartão de Crédito", "Cartão de Crédito"),
-    ("Dinheiro", "Dinheiro"),
-    ("Pix", "Pix"),
-]
+        ('APROVADO', 'APROVADO'),
+        ('REJEITADO', 'REJEITADO'),
+        ('DEVOLVIDO', 'DEVOLVIDO'),
+    ]
 
-
-class Categoria(models.Model):
-    nome = models.CharField(max_length=255)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+class Aluno(models.Model):
+    nome = models.CharField(max_length=150)
+    matricula = models.CharField(max_length=20)
+    email = models.EmailField()
+    endereco = models.CharField(max_length=350)
+    cidade = models.CharField(max_length=100)
+    telefone = models.CharField(max_length=15)
 
     def __str__(self):
         return self.nome
 
 
-class Despesa(models.Model):
-    detalhes = models.TextField()
-    valor_despesa = models.FloatField()
-    data = models.DateField()
-    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    forma_pagamento = models.CharField(
-        default="Dinheiro", max_length=155, choices=CLASSES_CHOICES
-    )
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+class Genero(models.Model):
+    nome = models.CharField(max_length=150)
 
     def __str__(self):
-        return self.detalhes
+        return self.nome
 
 
-class Renda(models.Model):
-    detalhes = models.CharField(max_length=255)
-    valor_renda = models.FloatField()
-    origem = models.CharField(
-        default="Extra", max_length=155, choices=RENDA_CHOICES)
-    data = models.DateField(default=now)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+class Livro(models.Model):
+    titulo = models.CharField(max_length=100) 
+    autor = models.CharField(max_length=120)
+    genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
+    paginas = models.IntegerField()
 
     def __str__(self):
-        return self.detalhes
+        return self.titulo
 
+class Emprestimo(models.Model):
+    periodo = models.CharField(max_length=10)
+    aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
+    data_emprestimo = models.DateField()
+    data_entrega = models.DateField()
+    livro = models.ManyToManyField(Livro)
+    status_emprestimo = models.CharField(max_length=150,choices=CLASSES_CHOICES)
 
-class Wishlist(models.Model):
-    detalhes = models.CharField(max_length=255)
-    valor_necessario = models.FloatField()
-    valor_salvo = models.FloatField(default=0)
-    data = models.DateField(default=now)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.periodo
